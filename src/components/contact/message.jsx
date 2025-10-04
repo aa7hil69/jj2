@@ -98,7 +98,7 @@ export const Message = () => {
 
     setSubmitting(true);
     try {
-      const res = await fetch("http://localhost:8080/send.php", {
+      const res = await fetch("https://jj2-alpha.vercel.app/send.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
