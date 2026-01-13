@@ -49,7 +49,7 @@ function useRouteChangeLoader() {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
-    const t = setTimeout(() => setLoading(false), 300); // half-second loader
+    const t = setTimeout(() => setLoading(false), 3000); // half-second loader
     return () => clearTimeout(t);
   }, [location.pathname]);
   return loading;
