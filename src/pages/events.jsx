@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { Reveal } from "../components/Reveal";
+
+/* minimum loader helper */
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const Events = () => {
   const [events, setEvents] = useState([]);
@@ -13,12 +17,17 @@ export const Events = () => {
 
     async function fetchEvents() {
       try {
-        const res = await fetch("/api/events");
+        setLoading(true);
+
+        const [res] = await Promise.all([
+          fetch("/api/events"),
+          wait(300), // ⏱️ minimum loader duration
+        ]);
+
         if (!res.ok) throw new Error("Failed to fetch events");
 
         const data = await res.json();
 
-        // ✅ Matches YOUR API exactly
         const mapped = Array.isArray(data.events)
           ? data.events.map((e) => ({
               id: e.id,
@@ -54,10 +63,22 @@ export const Events = () => {
           Events
         </h1>
 
+        {/* Gold loading bar */}
         {loading && (
-          <p className="text-center text-white/70">
-            Loading events...
-          </p>
+          <div className="flex justify-center py-10">
+            <div className="w-56 h-1 rounded-full bg-white/10 overflow-hidden">
+              <motion.div
+                className="h-full bg-[#C9A24D] shadow-[0_0_8px_rgba(201,162,77,0.6)]"
+                initial={{ x: "-100%" }}
+                animate={{ x: "100%" }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 1.4,
+                  ease: "easeInOut",
+                }}
+              />
+            </div>
+          </div>
         )}
 
         {error && (
@@ -77,11 +98,11 @@ export const Events = () => {
             {events.map((event) => (
               <article
                 key={event.id}
-                className="bg-[#0b0f14] rounded-lg overflow-hidden ring-1 ring-white/10 hover:ring-white/20 transition"
+                className="bg-[#0b0f14] rounded-xl overflow-hidden ring-1 ring-white/10 hover:ring-white/20 transition"
               >
                 {event.image && (
                   <img
-                    src={event.image}
+                    src={event.image} 
                     alt={event.title}
                     className="h-48 w-full object-cover"
                     loading="lazy"
@@ -93,7 +114,7 @@ export const Events = () => {
                     {event.date}
                   </p>
 
-                  <h2 className="text-lg font-semibold mb-2">
+                  <h2 className="text-base font-semibold mb-2 leading-tight">
                     {event.title}
                   </h2>
 
@@ -106,7 +127,7 @@ export const Events = () => {
                       href={event.link}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-block mt-4 text-blue-400 hover:underline text-sm"
+                      className="inline-block mt-4 text-[#C9A24D] hover:underline text-sm"
                     >
                       View Event →
                     </a>
