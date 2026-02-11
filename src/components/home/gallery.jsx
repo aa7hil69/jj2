@@ -522,8 +522,8 @@ export const Gallery = () => {
             onClick={() => setActive(null)}
           >
             <motion.div
-              className="relative max-w-5xl w-full bg-[#0b1d3a]
-                         rounded-2xl overflow-hidden shadow-2xl"
+              className="relative max-w-5xl w-full bg-[#D4AF37]
+           rounded-2xl overflow-hidden shadow-2xl"
               initial={{ scale: 0.9, y: 40, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: 40, opacity: 0 }}
@@ -644,7 +644,7 @@ const AnimatedGrid = ({ items, onOpen, pausedExternally }) => {
               <button
                 onClick={() => onOpen(img)}
                 className="mt-2 text-xs font-semibold
-                           text-blue-400 hover:underline"
+                           text-[#D4AF37] hover:underline"
               >
                 Read more →
               </button>
